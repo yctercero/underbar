@@ -103,6 +103,15 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqueArr = [];
+
+    _.each(array, function(item){
+      if(_.indexOf(uniqueArr, item) === -1){
+        uniqueArr.push(item);
+      }
+    });
+
+    return uniqueArr;
   };
 
 
@@ -161,13 +170,16 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
       var first = true;
+
     _.each(collection, function(item, key, collection){
+
       if(accumulator === undefined && first == true){
         accumulator = item;
         first = false;
       }else{
         accumulator = iterator(accumulator, item, key, collection);
       }
+
     });
 
     return accumulator;
