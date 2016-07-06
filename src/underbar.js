@@ -294,7 +294,7 @@
     return _.reduce(allArgs, function(startVal, indObj, key, collection){
         _.each(indObj, function(item, key){
           if(!startVal[key]){
-            console.log(!!startVal[key]);
+            // console.log(!!startVal[key]);
             startVal[key] = item;
           }
           
@@ -341,7 +341,7 @@
   // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
   // same thing as once, but based on many sets of unique arguments.
   //
-  // _.memoize should return a function that, when called, will check if it has
+  // _.memorize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
@@ -368,6 +368,21 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+     var copyArr = Array.prototype.slice.call(array);
+     console.log(copyArr);
+
+     return _.reduce(copyArr, function(startVal, item, key, collection){
+
+      var newInd = Math.floor((Math.random(0, array.length - 1)) * (array.length - 1));
+
+      var oldVal = copyArr[newInd];
+
+      copyArr[key] = oldVal;
+
+      copyArr[newInd] = item;
+
+      return startVal;
+     }, copyArr)
   };
 
 
