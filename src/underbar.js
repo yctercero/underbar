@@ -306,7 +306,11 @@
 
     return _.reduce(allArgs, function(startVal, indObj, key, collection){
         _.each(indObj, function(item, key){
-          if(!startVal[key]){
+          console.log(allArgs);
+          console.log(startVal[key]);
+          // Resource used to figure out how to pass test regarding 'falsyness'
+          // http://stackoverflow.com/questions/1098040/checking-if-a-key-exists-in-a-javascript-object
+          if(!(key in startVal)){
             // console.log(!!startVal[key]);
             startVal[key] = item;
           }
