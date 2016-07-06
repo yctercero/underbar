@@ -245,12 +245,25 @@
 
     // In theory, what I would want to be able to do is return every as soon as startVal 
     // (within reduce that's within every) returned true, but startVal is out of scope
-    return _.every(collection, function(item){
-       if(!item){
-        return true;
-       }
+    // return _.every(collection, function(item){
+    //    if(!item){
+    //     return true;
+    //    }
 
-    });
+    // });
+
+    return _.reduce(collection, function(startVal, item){
+    
+      if(iterator){
+        if(iterator(item)){
+          return true;
+        }
+      } else if(item){
+        return true;
+      }
+
+      return startVal;
+    }, false);
 
   };
 
