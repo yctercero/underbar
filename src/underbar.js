@@ -225,10 +225,16 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
     return _.reduce(collection, function(startVal, item){
-      if(!iterator(item)){
+    
 
+      if(iterator){
+        if(!iterator(item)){
+          return false;
+        }
+      } else if(!item){
         return false;
       }
+
       return startVal;
     }, true);
   };
