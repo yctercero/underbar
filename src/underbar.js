@@ -226,7 +226,6 @@
     // TIP: Try re-using reduce() here.
     return _.reduce(collection, function(startVal, item){
     
-
       if(iterator){
         if(!iterator(item)){
           return false;
@@ -243,6 +242,16 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    // In theory, what I would want to be able to do is return every as soon as startVal 
+    // (within reduce that's within every) returned true, but startVal is out of scope
+    return _.every(collection, function(item){
+       if(!item){
+        return true;
+       }
+
+    });
+
   };
 
 
@@ -265,6 +274,16 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var allArgs = arguments;
+
+    return _.reduce(allArgs, function(startVal, indObj, key, collection){
+        _.each(indObj, function(item, key){
+          startVal[key] = item;
+        });
+      
+      return startVal;
+    }, allArgs[0]);
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
