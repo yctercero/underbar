@@ -306,8 +306,6 @@
 
     return _.reduce(allArgs, function(startVal, indObj, key, collection){
         _.each(indObj, function(item, key){
-          console.log(allArgs);
-          console.log(startVal[key]);
           // Resource used to figure out how to pass test regarding 'falsyness'
           // http://stackoverflow.com/questions/1098040/checking-if-a-key-exists-in-a-javascript-object
           if(!(key in startVal)){
@@ -362,6 +360,18 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyCalled = false;
+    var args;
+    var result;
+
+    return function() {
+      if (!alreadyCalled) {
+        result = func.apply(this, arguments);
+        args = Array.prototype.slice.call(arguments);
+        alreadyCalled = true;
+      }
+      return result;
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -371,6 +381,16 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var result;
+    var args = Array.prototype.slice.call(arguments);
+    // Have args not include func and wait
+    var passArgs = args.slice(2, args.length);
+    
+    window.setTimeout(function(){
+      result = func.apply(this, passArgs);
+    }, wait);
+
+    return result;
   };
 
 
@@ -386,7 +406,6 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
      var copyArr = Array.prototype.slice.call(array);
-     console.log(copyArr);
 
      return _.reduce(copyArr, function(startVal, item, key, collection){
 
