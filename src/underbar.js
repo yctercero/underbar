@@ -289,6 +289,19 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var allArgs = Array.prototype.slice.call(arguments);
+
+    return _.reduce(allArgs, function(startVal, indObj, key, collection){
+        _.each(indObj, function(item, key){
+          if(!startVal[key]){
+            console.log(!!startVal[key]);
+            startVal[key] = item;
+          }
+          
+        });
+      
+      return startVal;
+    }, allArgs[0]);
   };
 
 
