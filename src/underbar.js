@@ -371,10 +371,17 @@
       console.log(memo[args]);
       if(args in memo){
         console.log(memo[args]);
-        return memo[args];
+        console.log(memo);
+        return memo[args]; //would return value a.k.a. 'result'
+      } else{
+        var result;
+        result = func.apply(this, arguments);
+        memo[args] = result;
+        console.log(memo);
+        return result;
       }
+
     }
-    
     
   };
 
