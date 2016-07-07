@@ -351,7 +351,7 @@
     };
   };
 
-  // Memoize is an expensive function's results by storing them. You may assume
+  // Memoize is an expansive function's results by storing them. You may assume
   // that the function only takes primitives as arguments.
   // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
   // same thing as once, but based on many sets of unique arguments.
@@ -364,7 +364,7 @@
     var memo = {};
 
     return function(){
-      
+      var args = Array.prototype.slice.call(arguments);
     }
     
     
