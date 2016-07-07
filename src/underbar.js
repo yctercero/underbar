@@ -351,27 +351,19 @@
     };
   };
 
-  // Memorize an expensive function's results by storing them. You may assume
+  // Memoize is an expensive function's results by storing them. You may assume
   // that the function only takes primitives as arguments.
   // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
   // same thing as once, but based on many sets of unique arguments.
   //
-  // _.memorize should return a function that, when called, will check if it has
+  // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var alreadyCalled = false;
-    var args;
-    var result;
-
-    return function() {
-      if (!alreadyCalled) {
-        result = func.apply(this, arguments);
-        args = Array.prototype.slice.call(arguments);
-        alreadyCalled = true;
-      }
-      return result;
-    };
+    
+    var memo = {};
+    
+    
   };
 
   // Delays a function for the given number of milliseconds, and then calls
