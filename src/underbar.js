@@ -364,7 +364,7 @@
     var memo = {};
 
     return function(){
-      var args = Array.prototype.slice.call(arguments);
+      var args = arguments;
         // returns array of the arguments
 
       console.log(args);
