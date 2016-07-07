@@ -365,6 +365,14 @@
 
     return function(){
       var args = Array.prototype.slice.call(arguments);
+        // returns array of the arguments
+
+      console.log(args);
+      console.log(memo[args]);
+      if(memo[args]){
+        console.log(memo[args]);
+        return memo[args];
+      }
     }
     
     
