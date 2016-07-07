@@ -369,7 +369,7 @@
 
       console.log(args);
       console.log(memo[args]);
-      if(memo[args]){
+      if(args in memo){
         console.log(memo[args]);
         return memo[args];
       }
