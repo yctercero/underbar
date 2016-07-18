@@ -101,24 +101,19 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
 
-    //My attempt at trying to use _.filter()
-    // return _.filter(collection, function(){
-    //   if(!test){
-    //     return true;
-    //   }else{
-    //     return false;
+    return _.filter(collection, function(item){
+      return !test(item);
+    });
+
+    // var failed = [];
+
+    // _.each(collection, function(item){
+    //   if(!test(item)){
+    //     failed.push(item);
     //   }
     // });
 
-    var failed = [];
-
-    _.each(collection, function(item){
-      if(!test(item)){
-        failed.push(item);
-      }
-    });
-
-    return failed;
+    // return failed;
 
 
   };
