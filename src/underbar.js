@@ -101,7 +101,7 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
 
-    return filter(collection, function(item){
+    return _.filter(collection, function(item){
       console.log(test(item));
       return !test(item);
     });
