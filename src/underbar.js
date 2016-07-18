@@ -102,7 +102,7 @@
     // copying code in and modifying it
 
     return _.filter(collection, function(item){
-      console.log(test(item));
+      //console.log(test(item));
       return !test(item);
     });
 
