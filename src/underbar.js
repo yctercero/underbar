@@ -218,17 +218,23 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    return _.reduce(collection, function(startVal, item){
-    
-      if(iterator){
-        if(!iterator(item)){
-          return false;
-        }
-      } else if(!item){
-        return false;
-      }
+    // return _.reduce(collection, function(startVal, item){
+    //   if(iterator){
+    //     if(!iterator(item)){
+    //       return false;
+    //     }
+    //   } else if(!item){
+    //     return false;
+    //   }
+    //   return startVal;
+    // }, true);
 
-      return startVal;
+    // Was searching for a more succinct way of writing this function and found a great example
+    // Here we define iterator, if it exists or not
+    var test = iterator || _.identity;
+    return _.reduce(collection, function(startVal, item){
+      // if an iterator exists then that's what will go here, if not then iterator is the value of identity(item) ==> item
+      return startVal && !!test(item)
     }, true);
   };
 
