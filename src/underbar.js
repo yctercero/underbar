@@ -136,7 +136,7 @@
 
   _.every = function(collection, iterator) {
     // Was searching for a more succinct way of writing this function and found a great example
-    // Here we define iterator, if it exists or not
+    // Test is used in case iterator is not assigned
     var test = iterator || _.identity;
     return _.reduce(collection, function(startVal, item){
       // if an iterator exists then that's what will go here, if not then iterator is the value of identity(item) ==> item
@@ -144,46 +144,15 @@
     }, true);
   };
 
-  // Determine whether any of the elements pass a truth test. If no iterator is
-  // provided, provide a default one
+ 
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
-
-    // In theory, what I would want to be able to do is return every as soon as startVal 
-    // (within reduce that's within every) returned true, but startVal is out of scope
-    // return _.every(collection, function(item){
-    //    if(!item){
-    //     return true;
-    //    }
-
-    // });
-
-    return _.reduce(collection, function(startVal, item){
-    
-      if(iterator){
-        if(iterator(item)){
-          return true;
-        }
-      } else if(item){
-        return true;
-      }
-
-      return startVal;
-    }, false);
+    var test = iterator || _.identity;
+    return !(_.every(collection, function(item){
+      return !test(item);
+    }));
 
   };
 
-
-  /**
-   * OBJECTS
-   * =======
-   *
-   * In this section, we'll look at a couple of helpers for merging objects.
-   */
-
-  // Extend a given object with all the properties of the passed in
-  // object(s).
-  //
   // Example:
   //   var obj1 = {key1: "something"};
   //   _.extend(obj1, {
@@ -205,8 +174,7 @@
 
   };
 
-  // Like extend, but doesn't ever overwrite a key that already
-  // exists in obj
+  // Like extend, but doesn't ever overwrite a key that already exists in obj
   _.defaults = function(obj) {
     var allArgs = Array.prototype.slice.call(arguments);
 
@@ -224,15 +192,6 @@
       return startVal;
     }, allArgs[0]);
   };
-
-
-  /**
-   * FUNCTIONS
-   * =========
-   *
-   * Now we're getting into function decorators, which take in any function
-   * and return out a new version of the function that works somewhat differently
-   */
 
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
@@ -297,12 +256,8 @@
     
   };
 
-  // Delays a function for the given number of milliseconds, and then calls
-  // it with the arguments supplied.
-  //
-  // The arguments for the original function are passed after the wait
-  // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
-  // call someFunction('a', 'b') after 500ms
+  // Delays a function for the given number of milliseconds, and then calls it with the arguments supplied.
+  // The arguments for the original function are passed after the wait parameter. For example _.delay(someFunction, 500, 'a', 'b') will call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var result;
     var args = Array.prototype.slice.call(arguments);
@@ -316,17 +271,7 @@
     return result;
   };
 
-
-  /**
-   * ADVANCED COLLECTION OPERATIONS
-   * ==============================
-   */
-
   // Randomizes the order of an array's contents.
-  //
-  // TIP: This function's test suite will ask that you not modify the original
-  // input array. For a tip on how to make a copy of an array, see:
-  // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
      var copyArr = Array.prototype.slice.call(array);
 
