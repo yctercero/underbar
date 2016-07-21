@@ -147,9 +147,18 @@
  
   _.some = function(collection, iterator) {
     var test = iterator || _.identity;
-    return !(_.every(collection, function(item){
-      return !test(item);
-    }));
+    // return !(_.every(collection, function(item){
+    //   return !test(item);
+    // }));
+
+    return _.reduce(collection, function(startVal, item){
+    
+      if(test(item)){
+        return true;
+      }
+      
+      return startVal;
+    }, false);
 
   };
 
