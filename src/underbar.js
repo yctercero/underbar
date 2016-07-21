@@ -156,7 +156,7 @@
       if(test(item)){
         return true;
       }
-      
+
       return startVal;
     }, false);
 
@@ -310,6 +310,16 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    var args = Array.prototype.slice.call(arguments);
+    args = args.slice(2);
+
+    var results = [];
+
+    _.map(collection, function(item, index){
+        results.push(functionOrKey.apply(item, args));
+      });
+
+    return results;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
