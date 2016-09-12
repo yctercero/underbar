@@ -3,8 +3,6 @@
 
   window._ = {};
 
-  // Remember it--if a function needs to provide an
-  // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
     return val;
   };
@@ -71,7 +69,7 @@
     });
   };
 
-  // Produce a duplicate-free version of the array.
+
   _.uniq = function(array) {
     var uniqueArr = [];
 
@@ -95,10 +93,6 @@
     return newArr;
   };
 
-
-  // Takes an array of objects and returns and array of the values of
-  // a certain property in it. E.g. take an array of people and return
-  // an array of just their ages
   _.pluck = function(collection, key) {
     return _.map(collection, function(item){
       return item[key];
@@ -147,9 +141,6 @@
  
   _.some = function(collection, iterator) {
     var test = iterator || _.identity;
-    // return !(_.every(collection, function(item){
-    //   return !test(item);
-    // }));
 
     return _.reduce(collection, function(startVal, item){
     
@@ -162,14 +153,6 @@
 
   };
 
-  // Example:
-  //   var obj1 = {key1: "something"};
-  //   _.extend(obj1, {
-  //     key2: "something new",
-  //     key3: "something else new"
-  //   }, {
-  //     bla: "even more stuff"
-  //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
     var allArgs = arguments;
 
@@ -183,7 +166,6 @@
 
   };
 
-  // Like extend, but doesn't ever overwrite a key that already exists in obj
   _.defaults = function(obj) {
     var allArgs = Array.prototype.slice.call(arguments);
 
@@ -202,47 +184,24 @@
     }, allArgs[0]);
   };
 
-  // Return a function that can be called at most one time. Subsequent calls
-  // should return the previously returned value.
   _.once = function(func) {
-    // TIP: These variables are stored in a "closure scope" (worth researching),
-    // so that they'll remain available to the newly-generated function every
-    // time it's called.
     var alreadyCalled = false;
     var result;
 
-    // TIP: We'll return a new function that delegates to the old one, but only
-    // if it hasn't been called before.
     return function() {
       if (!alreadyCalled) {
-        // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
-      // The new function always returns the originally computed result.
       return result;
     };
   };
 
-  // Memoize is an expansive function's results by storing them. You may assume
-  // that the function only takes primitives as arguments.
-  // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
-  // same thing as once, but based on many sets of unique arguments.
-  //
-  // _.memoize should return a function that, when called, will check if it has
-  // already computed the result for the given argument and return that value
-  // instead if possible.
   _.memoize = function(func) {
     
     var memo = {};
 
     return function(){
-      //var args = Array.prototype.slice.call(arguments);
-      //var args = "'" + Array.prototype.slice.call(arguments) + "'";
-        // [1, 2, 3] gets stored as '1,2,3'
-      // var args = arguments;
-        // gets stored in memo as 'object Arguments'
       var argToAdd = {};
       
       _.each(arguments, function(item, key){
@@ -250,7 +209,6 @@
           argToAdd[key] = item;
       });
 
-      //http://stackoverflow.com/questions/5612787/converting-an-object-to-a-string
       var args = JSON.stringify(argToAdd);
 
       if(args in memo){
@@ -265,8 +223,7 @@
     
   };
 
-  // Delays a function for the given number of milliseconds, and then calls it with the arguments supplied.
-  // The arguments for the original function are passed after the wait parameter. For example _.delay(someFunction, 500, 'a', 'b') will call someFunction('a', 'b') after 500ms
+
   _.delay = function(func, wait) {
     var result;
     var args = Array.prototype.slice.call(arguments);
@@ -280,7 +237,7 @@
     return result;
   };
 
-  // Randomizes the order of an array's contents.
+
   _.shuffle = function(array) {
      var copyArr = Array.prototype.slice.call(array);
 
@@ -299,69 +256,17 @@
   };
 
 
-  /**
-   * ADVANCED
-   * =================
-   *
-   * Note: This is the end of the pre-course curriculum. Feel free to continue,
-   * but nothing beyond here is required.
-   */
-
-  // Calls the method named by functionOrKey on each value in the list.
-  // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-    var args = Array.prototype.slice.call(arguments, 2);
+      var args = Array.prototype.slice.call(arguments, 2);
 
-    if(typeof functionOrKey == 'function'){
-      return _.map(collection, function(item, index){
-        return functionOrKey.apply(item, args);
-      });
-    }else{
-      return _.map(collection, function(item, index){
-        return item[functionOrKey].apply(item, args);
-      });
-    }
+      if(typeof functionOrKey == 'function'){
+        return _.map(collection, function(item, index){
+          return functionOrKey.apply(item, args);
+        });
+      }else{
+        return _.map(collection, function(item, index){
+          return item[functionOrKey].apply(item, args);
+        });
+      }
     
-
   };
-
-  // Sort the object's values by a criterion produced by an iterator.
-  // If iterator is a string, sort objects by that property with the name
-  // of that string. For example, _.sortBy(people, 'name') should sort
-  // an array of people by their name.
-  _.sortBy = function(collection, iterator) {
-  };
-
-  // Zip together two or more arrays with elements of the same index
-  // going together.
-  //
-  // Example:
-  // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {
-  };
-
-  // Takes a multidimensional array and converts it to a one-dimensional array.
-  // The new array should contain all elements of the multidimensional array.
-  //
-  // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {
-  };
-
-  // Takes an arbitrary number of arrays and produces an array that contains
-  // every item shared between all the passed-in arrays.
-  _.intersection = function() {
-  };
-
-  // Take the difference between one array and a number of other arrays.
-  // Only the elements present in just the first array will remain.
-  _.difference = function(array) {
-  };
-
-  // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time.  See the Underbar readme for extra details
-  // on this function.
-  //
-  // Note: This is difficult! It may take a while to implement.
-  _.throttle = function(func, wait) {
-  };
-}());

@@ -16,29 +16,6 @@
         var input = [1,2,3,4,5];
         var result = _.contains(input, 4);
 
-        /*
-         * Mutation of inputs should be avoided without good justification otherwise
-         * as it can often lead to hard to find bugs and confusing code!
-         * Imagine we were reading the code above, and we added the following line:
-         *
-         * var lastElement = input[input.length - 1];
-         *
-         * Without knowing that mutation occured inside of reduceRight,
-         * we would assume that `lastElement` is 5. But if inside of
-         * reduceRight, we use the array method `pop`, we would permanently
-         * change `input` and our assumption would not longer be true,
-         * `lastElement` would be 4 instead!
-         *
-         * The tricky part is that we have no way of knowing about the mutation
-         * just by looking at the code above. We'd have to dive into the
-         * implementation of reduceRight to the exact line that uses `pop`.
-         * If we write a lot of code with this assumption, it might be very hard
-         * to trace back to the correct line in reduceRight.
-         *
-         * You can avoid an entire class of bugs by writing functions
-         * that don't mutate their inputs!
-         */
-
         expect(input).to.eql([1,2,3,4,5])
       });
 
@@ -223,16 +200,6 @@
       });
 
       it('should return the original target object', function() {
-        /*
-         * Our defaults function should only modify the contents of the original object,
-         * it should not create a new object with all the same properties
-         *
-         * We can test this by using the identity operator (===)
-         *
-         * If we assign a variable to the result of _.defaults() and it === a variable assigned
-         * to our initial object, then both variables are indeed references to the same object
-         * and we are guaranteed that only the contents of our original object were modified
-         */
 
         var destination = {};
         var source = {};
@@ -242,26 +209,6 @@
       });
 
       it('should copy a property if that key is not already set on the target', function() {
-        /*
-         * Be careful when using `arguments`. It's specified as a weird "Array-like object"
-         * that's not really an array and not really even an object. This means normal operations
-         * we would expect to work on objects (`for in`, `Object.keys`) and arrays (`push`, `pop`)
-         * might not work as expected on `arguments`.
-         *
-         * In fact, the behavior of `arguments` is left up to various JavaScript engines to implement.
-         * You might have noticed that running this exact same test works fine in Chrome or Firefox.
-         * This is because the engines powering these browsers are smart enough to understand
-         * the nuances of this complicated structure and might force it to act as expected.
-         *
-         * It turns out that the engine powering our runtime environment for these tests
-         * is not as smart as Chrome and does not understand how to `for in` over the `arguments` object
-         *
-         * This could be considered a bug in our test environment but is better thought of as a learning
-         * opportunity. The safest thing to do when working with `arguments` is convert it into a
-         * real array that every JavaScript engine will know how to handle.
-         *
-         * If you're not sure how to do that, Stack Overflow has plenty to say on the topic.
-         */
 
         var destination = {};
         var source = { a: 1 };
@@ -303,16 +250,6 @@
       });
 
       it('should not copy a property if that key is already set on the target, even if the value for that key is falsy', function() {
-        /*
-         * When the value provided to an if() condition is not a strict boolean,
-         * it will first be coerced into one and then evaluated
-         *
-         * A value is considered 'falsy' if, when coerced, it evaluates to `false`.
-         * You can check the coerced boolean with either `Boolean(myValue)` or `!!myValue`
-         *
-         * This could be a problem because falsy values are valid in our object. If we aren't
-         * precise enough with our conditional check, we might get these unexpected results
-         */
 
         var destination = {a: '', b: 0, c: NaN };
         var source = { a: 1, b: 2, c: 3 };
@@ -362,7 +299,6 @@
       });
 
       it('should return a function', function() {
-        // noop is short for `no-operation` and is pronounced `no-op`
         var noop = _.once(function() {});
 
         expect(noop).to.be.an.instanceOf(Function);
@@ -429,9 +365,7 @@
       });
 
       it('should not run the memoized function twice when given a primitive type as an argument', function() {
-        // Here, we wrap a dummy function in a spy. A spy is a wrapper function (much like _.memoize
-        // or _.once) that keeps track of interesting information about the function it's spying on;
-        // e.g. whether or not the function has been called.
+
         var spy = sinon.spy(function() { return 'Dummy output'; });
         var memoSpy = _.memoize(spy);
 
@@ -442,7 +376,6 @@
       });
       
       it('should not run the memoized function twice when given a reference type as an argument', function() {
-        // Be careful how you are checking if a set of arguments has been passed in already
         var spy = sinon.spy(function() { return 'Dummy output'; });
         var memoSpy = _.memoize(spy);
 
@@ -453,7 +386,6 @@
       });
 
       it('should run the memoized function twice when given an array and then given a list of arguments', function() {
-        // Be careful how you are checking if a set of arguments has been passed in already
         var spy = sinon.spy(function() { return 'Dummy output'; });
         var memoSpy = _.memoize(spy);
 
@@ -518,7 +450,6 @@
         var numbers = [4, 5, 6, 7, 8, 9, 10];
         var shuffled = _.shuffle(numbers);
 
-        // This test will fail 1/9! times
         expect(shuffled).to.not.eql([4, 5, 6, 7, 8, 9, 10]);
       });
 
@@ -528,7 +459,6 @@
 
   function checkForNativeMethods(runUnderbarFunction) {
     it('should not use the native version of any underbar methods in its implementation', function() {
-      // These spies are set up in testSupport.js
       runUnderbarFunction();
       expect(Array.prototype.map.called).to.equal(false);
       expect(Array.prototype.indexOf.called).to.equal(false);
